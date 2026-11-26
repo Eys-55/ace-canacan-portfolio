@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>n8n Workflow Guard Skill Pack · Ace Canacan</title>
+<meta name="description" content="A PreToolUse Bash hook that denies n8n import:workflow and API pushes until a validator clears the exported JSON of missing error workflows, inline secrets, and unlisted community nodes. Agent Skills hold the fix steps.">
+<link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/site.css">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('js');})();</script>
+</head>
+<body data-page="projects">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap site-head__in">
+    <a class="brand" href="../index.html"><span class="brand__mark" aria-hidden="true"></span>Ace Canacan</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#projects" aria-current="page">Projects</a>
+      <a href="../index.html#stack">Stack</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+    <button class="theme" type="button" aria-label="Switch color theme" data-theme-toggle><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 2.75a5.25 5.25 0 0 0 0 10.5z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+
+<section class="case-head">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <a class="back" href="../index.html#projects"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H4M7.5 4.5 4 8l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> All projects</a>
+    <p class="eyebrow">Project <span class="dot" aria-hidden="true"></span> Claude Code, Agent Skills, Hooks, Python</p>
+    <h1 class="display display--md">n8n Workflow Guard Skill Pack</h1>
+    <div class="case-head__row">
+      <p class="lede">A PreToolUse Bash hook that denies n8n import:workflow and API pushes until a validator clears the exported JSON of missing error workflows, inline secrets, and unlisted community nodes. Agent Skills hold the fix steps.</p>
+      <div class="stat"><p class="stat__v">37</p><p class="stat__l">risky changes caught across 3 Git repositories</p></div>
+    </div>
+  </div>
+</section>
+<section class="sec sec--demo" id="demo" aria-labelledby="demo-h">
+  <div class="wrap">
+    <p class="eyebrow sec__label">Live demo</p>
+    <h2 id="demo-h" class="h2">Try to import a workflow.</h2>
+    <p class="sec__intro">Pick a sample export or paste your own n8n workflow JSON. This page runs the same three checks in your browser. Nothing is uploaded.</p>
+    <div class="demo" data-demo data-nocheck>
+      <div class="demo__pane">
+        <div class="demo__bar">
+          <span class="demo__title">workflow export</span>
+          <div class="seg" role="group" aria-label="Sample exports" data-guard-samples></div>
+        </div>
+        <label class="sr" for="guard-input">n8n workflow JSON</label>
+        <textarea id="guard-input" class="demo__code" spellcheck="false" autocomplete="off" autocapitalize="off" data-guard-input></textarea>
+        <div class="demo__foot">
+          <span class="demo__hint" data-guard-file></span>
+          <button class="btn btn--solid" type="button" data-guard-run>Run import <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+      <div class="demo__pane demo__pane--term">
+        <div class="demo__bar"><span class="demo__title">claude code</span><span class="verdict" data-guard-verdict>idle</span></div>
+        <div class="term" role="log" aria-live="polite" data-guard-term><p class="t-dim">Press "Run import" to send the command through the hook.</p></div>
+        <details class="demo__raw"><summary>Hook output (JSON)</summary><pre data-guard-raw>No decision yet.</pre></details>
+      </div>
+    </div>
+  </div>
+</section><section class="sec" id="checks" aria-labelledby="checks-h"><div class="wrap sec__grid"><div class="sec__side"><p class="eyebrow sec__label">Checks</p></div><div class="sec__main"><h2 id="checks-h" class="h2">Three things an export must clear.</h2><ul class="triad"><li class="reveal"><h3>Missing error workflow</h3><p>The export must name an error workflow in its settings, so failed runs reach the error handler.</p></li><li class="reveal"><h3>Inline secrets</h3><p>Tokens and keys typed straight into node parameters are rejected. They belong in n8n credentials.</p></li><li class="reveal"><h3>Unlisted community nodes</h3><p>Any node from outside n8n&#x27;s own packages must be on the repository&#x27;s allowlist.</p></li></ul></div></div></section><section class="sec" id="how" aria-labelledby="how-h"><div class="wrap sec__grid"><div class="sec__side"><p class="eyebrow sec__label">How it works</p></div><div class="sec__main"><h2 id="how-h" class="h2">A deny at the last safe moment.</h2><ol class="flow reveal"><li>Claude Code is about to run a Bash command. The PreToolUse hook sees it first.</li><li>If the command is an n8n import or an API push, the hook runs the validator on the exported workflow JSON.</li><li>A clean export passes with no decision, so the normal permission flow applies. Any finding returns a deny with the reason.</li><li>Claude reads the reason, opens the matching Agent Skill, applies the fix steps, and tries again.</li></ol><figure class="code reveal"><figcaption>.claude/settings.json</figcaption><pre><code>{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [
+      {
+        &quot;matcher&quot;: &quot;Bash&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;${CLAUDE_PROJECT_DIR}/.claude/hooks/n8n-guard.py&quot;
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre></figure><p class="prose reveal">The same validator belongs in CI, where it covers changes made outside Claude Code.</p></div></div></section>
+<section class="next">
+  <div class="wrap">
+    <a class="next__a" href="../intake-reply-eval-kit/index.html">
+      <span class="eyebrow">Other project</span>
+      <span class="next__t">Intake Reply Eval Kit <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </div>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap site-foot__in">
+    <p><strong>Ace Canacan</strong> <span class="dot" aria-hidden="true"></span> AI Automation Engineer <span class="dot" aria-hidden="true"></span> Philippines</p>
+    <p class="site-foot__links">
+      <a href="mailto:ace.canacan@example.ph">ace.canacan@example.ph</a>
+      <a href="../assets/Ace-Canacan-Resume.pdf">Resume (PDF)</a>
+    </p>
+  </div>
+</footer>
+<script type="application/json" id="guard-fixtures">[{"file":"intake-router.json","label":"Clean","json":"{\n  \"name\": \"Intake router\",\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"httpMethod\": \"POST\",\n        \"path\": \"intake-form\",\n        \"responseMode\": \"onReceived\"\n      },\n      \"name\": \"Form webhook\",\n      \"type\": \"n8n-nodes-base.webhook\",\n      \"typeVersion\": 2,\n      \"position\": [\n        0,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"jsCode\": \"// Replace direct identifiers with placeholders before any API call.\\nconst text = $json.body.text;\\nreturn [{ json: { recordId: $json.body.recordId, masked: maskIdentifiers(text) } }];\"\n      },\n      \"name\": \"Mask identifiers\",\n      \"type\": \"n8n-nodes-base.code\",\n      \"typeVersion\": 2,\n      \"position\": [\n        220,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://api.anthropic.com/v1/messages\",\n        \"authentication\": \"genericCredentialType\",\n        \"genericAuthType\": \"httpHeaderAuth\",\n        \"sendBody\": true,\n        \"specifyBody\": \"json\",\n        \"jsonBody\": \"={{ $json.request }}\",\n        \"options\": {\n          \"retry\": {\n            \"maxTries\": 3\n          }\n        }\n      },\n      \"name\": \"Extract fields\",\n      \"type\": \"n8n-nodes-base.httpRequest\",\n      \"typeVersion\": 4,\n      \"position\": [\n        440,\n        300\n      ],\n      \"credentials\": {\n        \"httpHeaderAuth\": {\n          \"id\": \"cred_claude_api\",\n          \"name\": \"Claude API (header auth)\"\n        }\n      }\n    },\n    {\n      \"parameters\": {\n        \"mode\": \"rules\",\n        \"rules\": {\n          \"values\": [\n            {\n              \"outputKey\": \"new-patient\"\n            },\n            {\n              \"outputKey\": \"follow-up\"\n            }\n          ]\n        }\n      },\n      \"name\": \"Route by visit reason\",\n      \"type\": \"n8n-nodes-base.switch\",\n      \"typeVersion\": 3,\n      \"position\": [\n        660,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"spaceId\": \"={{ $env.INTAKE_SPACE_ID }}\",\n        \"messageUi\": {\n          \"text\": \"=New inquiry routed. Record {{ $json.recordId }}\"\n        }\n      },\n      \"name\": \"Notify intake staff\",\n      \"type\": \"n8n-nodes-base.googleChat\",\n      \"typeVersion\": 1,\n      \"position\": [\n        880,\n        300\n      ],\n      \"credentials\": {\n        \"googleChatOAuth2Api\": {\n          \"id\": \"cred_gchat\",\n          \"name\": \"Google Chat\"\n        }\n      }\n    }\n  ],\n  \"connections\": {\n    \"Form webhook\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Mask identifiers\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Mask identifiers\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Extract fields\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Extract fields\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Route by visit reason\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Route by visit reason\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Notify intake staff\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"active\": false,\n  \"settings\": {\n    \"executionOrder\": \"v1\",\n    \"errorWorkflow\": \"wf_error_handler\"\n  },\n  \"pinData\": {}\n}"},{"file":"refund-sync.json","label":"No error workflow","json":"{\n  \"name\": \"Refund sync\",\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"httpMethod\": \"POST\",\n        \"path\": \"refund-created\"\n      },\n      \"name\": \"Refund webhook\",\n      \"type\": \"n8n-nodes-base.webhook\",\n      \"typeVersion\": 2,\n      \"position\": [\n        0,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"endpoint\": \"={{ $env.SHOP_GRAPHQL_URL }}\",\n        \"query\": \"query($id: ID!) { order(id: $id) { id returnStatus } }\"\n      },\n      \"name\": \"Look up order\",\n      \"type\": \"n8n-nodes-base.graphql\",\n      \"typeVersion\": 1,\n      \"position\": [\n        220,\n        300\n      ],\n      \"credentials\": {\n        \"httpHeaderAuth\": {\n          \"id\": \"cred_shop_admin\",\n          \"name\": \"Shop Admin API\"\n        }\n      }\n    },\n    {\n      \"parameters\": {\n        \"operation\": \"append\",\n        \"documentId\": \"={{ $env.REFUND_LOG_SHEET }}\",\n        \"sheetName\": \"log\"\n      },\n      \"name\": \"Append to refund log\",\n      \"type\": \"n8n-nodes-base.googleSheets\",\n      \"typeVersion\": 4,\n      \"position\": [\n        440,\n        300\n      ],\n      \"credentials\": {\n        \"googleSheetsOAuth2Api\": {\n          \"id\": \"cred_sheets\",\n          \"name\": \"Google Sheets\"\n        }\n      }\n    }\n  ],\n  \"connections\": {\n    \"Refund webhook\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Look up order\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Look up order\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Append to refund log\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"active\": false,\n  \"settings\": {\n    \"executionOrder\": \"v1\"\n  },\n  \"pinData\": {}\n}"},{"file":"lead-triage.json","label":"Inline secret","json":"{\n  \"name\": \"Lead triage\",\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"httpMethod\": \"POST\",\n        \"path\": \"web-lead\"\n      },\n      \"name\": \"Lead webhook\",\n      \"type\": \"n8n-nodes-base.webhook\",\n      \"typeVersion\": 2,\n      \"position\": [\n        0,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://api.anthropic.com/v1/messages\",\n        \"authentication\": \"genericCredentialType\",\n        \"genericAuthType\": \"httpHeaderAuth\",\n        \"sendBody\": true,\n        \"specifyBody\": \"json\",\n        \"jsonBody\": \"={{ $json.request }}\",\n        \"options\": {\n          \"retry\": {\n            \"maxTries\": 3\n          }\n        }\n      },\n      \"name\": \"Extract fields\",\n      \"type\": \"n8n-nodes-base.httpRequest\",\n      \"typeVersion\": 4,\n      \"position\": [\n        220,\n        300\n      ],\n      \"credentials\": {\n        \"httpHeaderAuth\": {\n          \"id\": \"cred_claude_api\",\n          \"name\": \"Claude API (header auth)\"\n        }\n      }\n    },\n    {\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://crm.example.com/api/leads\",\n        \"sendHeaders\": true,\n        \"headerParameters\": {\n          \"parameters\": [\n            {\n              \"name\": \"Authorization\",\n              \"value\": \"Bearer demo-token-not-real-0000000000\"\n            },\n            {\n              \"name\": \"Content-Type\",\n              \"value\": \"application/json\"\n            }\n          ]\n        },\n        \"sendBody\": true,\n        \"specifyBody\": \"json\",\n        \"jsonBody\": \"={{ $json.lead }}\"\n      },\n      \"name\": \"Post to CRM\",\n      \"type\": \"n8n-nodes-base.httpRequest\",\n      \"typeVersion\": 4,\n      \"position\": [\n        440,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"resource\": \"message\",\n        \"operation\": \"post\",\n        \"channel\": \"={{ $env.APPROVAL_CHANNEL }}\",\n        \"text\": \"=Draft ready for review. Lead {{ $json.leadId }}\"\n      },\n      \"name\": \"Queue for approval\",\n      \"type\": \"n8n-nodes-base.slack\",\n      \"typeVersion\": 2,\n      \"position\": [\n        660,\n        300\n      ],\n      \"credentials\": {\n        \"slackApi\": {\n          \"id\": \"cred_slack\",\n          \"name\": \"Slack\"\n        }\n      }\n    }\n  ],\n  \"connections\": {\n    \"Lead webhook\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Extract fields\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Extract fields\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Post to CRM\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Post to CRM\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Queue for approval\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"active\": false,\n  \"settings\": {\n    \"executionOrder\": \"v1\",\n    \"errorWorkflow\": \"wf_error_handler\"\n  },\n  \"pinData\": {}\n}"},{"file":"fax-ocr-intake.json","label":"Community node","json":"{\n  \"name\": \"Fax OCR intake\",\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"httpMethod\": \"POST\",\n        \"path\": \"fax-received\"\n      },\n      \"name\": \"New fax PDF\",\n      \"type\": \"n8n-nodes-base.webhook\",\n      \"typeVersion\": 2,\n      \"position\": [\n        0,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"mode\": \"ocr\",\n        \"language\": \"en\"\n      },\n      \"name\": \"Parse PDF\",\n      \"type\": \"n8n-nodes-docparse.docParse\",\n      \"typeVersion\": 1,\n      \"position\": [\n        220,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"jsCode\": \"return [{ json: { recordId: $json.recordId, masked: maskIdentifiers($json.text) } }];\"\n      },\n      \"name\": \"Mask identifiers\",\n      \"type\": \"n8n-nodes-base.code\",\n      \"typeVersion\": 2,\n      \"position\": [\n        440,\n        300\n      ]\n    },\n    {\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://api.anthropic.com/v1/messages\",\n        \"authentication\": \"genericCredentialType\",\n        \"genericAuthType\": \"httpHeaderAuth\",\n        \"sendBody\": true,\n        \"specifyBody\": \"json\",\n        \"jsonBody\": \"={{ $json.request }}\",\n        \"options\": {\n          \"retry\": {\n            \"maxTries\": 3\n          }\n        }\n      },\n      \"name\": \"Extract fields\",\n      \"type\": \"n8n-nodes-base.httpRequest\",\n      \"typeVersion\": 4,\n      \"position\": [\n        660,\n        300\n      ],\n      \"credentials\": {\n        \"httpHeaderAuth\": {\n          \"id\": \"cred_claude_api\",\n          \"name\": \"Claude API (header auth)\"\n        }\n      }\n    }\n  ],\n  \"connections\": {\n    \"New fax PDF\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Parse PDF\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Parse PDF\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Mask identifiers\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Mask identifiers\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Extract fields\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"active\": false,\n  \"settings\": {\n    \"executionOrder\": \"v1\",\n    \"errorWorkflow\": \"wf_error_handler\"\n  },\n  \"pinData\": {}\n}"}]</script>
+<script src="../assets/site.js" defer></script><script src="../assets/guard.js" defer></script><script src="../assets/guard-demo.js" defer></script>
+</body>
+</html>
